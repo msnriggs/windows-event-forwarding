@@ -1,4 +1,5 @@
-# Authors: Chris Long (@Centurion), Andy Robbins (@_wald0)
+# Original Authors: Chris Long (@Centurion), Andy Robbins (@_wald0)
+# Modified for use with Perch Security: Michael Riggs (@msnriggs)
 # This script executes the Sysinternals Autoruns CLI utility and saves the output to a CSV.
 # The resulting CSV entries are written to a Windows Event Log called "Autoruns"
 
@@ -12,7 +13,7 @@ if (! $logfileExists) {
 }
 
 # Define the path where the Autoruns CSV will be saved
-$autorunsCsv = "c:\Program Files\AutorunsToWinEventLog\AutorunsOutput.csv"
+$autorunsCsv = "%temp%\AutorunsOutput.csv"
 
 ## Autorunsc64.exe flags:
 # -nobanner    Don't output the banner (breaks CSV parsing)
@@ -27,7 +28,7 @@ $autorunsCsv = "c:\Program Files\AutorunsToWinEventLog\AutorunsOutput.csv"
 
 ## Normally we'd add a "-Wait" flag to this Start-Process, but it seems to be
 ## broken when called from RunAs or Scheduled Tasks: https://goo.gl/8NcvcK
-$proc = Start-Process -FilePath "c:\Program Files\AutorunsToWinEventLog\Autorunsc64.exe" -ArgumentList '-nobanner', '/accepteula', '-a *', '-c', '-h', '-s', '-v', '-vt', '*'  -RedirectStandardOut $autorunsCsv -WindowStyle hidden -Passthru
+$proc = Start-Process -FilePath "c:\Program Files\Perch\autoruns\Autorunsc64.exe" -ArgumentList '-nobanner', '/accepteula', '-a *', '-c', '-h', '-s', '-v', '-vt', '*'  -RedirectStandardOut $autorunsCsv -WindowStyle hidden -Passthru
 $proc.WaitForExit()
 $autorunsArray = Import-Csv $autorunsCsv
 
