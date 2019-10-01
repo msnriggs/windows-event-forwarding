@@ -5,5 +5,5 @@ Unregister-ScheduledTask -TaskName "AutorunsToWinEventLog" -Confirm:$false
 Remove-EventLog -LogName "Autoruns"
 
 # Remove AutorunsToWinEventLog folder
-Remove-Item -Recurse -Force "c:\Program Files\AutorunsToWinEventLog"
+Remove-Item -Recurse -Force "c:\Program Files\Perch\autoruns"
 
